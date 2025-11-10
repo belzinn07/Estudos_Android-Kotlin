@@ -31,7 +31,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.controledeestoque_v2.data.model.Produto
@@ -57,63 +56,65 @@ fun TelaPricipal(
     onAddProduto: () -> Unit,
     viewModel: ProdutoViewModel = viewModel()
 ) {
-    val produtos by viewModel.listarProdutos.collectAsState()
-    val totalEstoque by viewModel.valorTotalEstoque.collectAsState()
+    val produtos by viewModel.listarProdutos.collectAsState(initial = emptyList())
+    val totalEstoque by viewModel.valorTotalEstoque.collectAsState(initial = 0.0)
 
 
     Scaffold(
         topBar = {
             TopAppBar(
                 colors = topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
                 ),
                 title = {
-                    Text("Top app bar")
+                    Text("Controle de Estoque")
                 }
             )
         },
 
-       floatingActionButton = {
-           FloatingActionButton(onClick = onAddProduto) {
-               Icon(Icons.Default.Add, contentDescription = "Adicionar Produto")
-           }
-       }
-    ) {innerPadding ->
+        floatingActionButton = {
+            FloatingActionButton(onClick = onAddProduto) {
+                Icon(Icons.Default.Add, contentDescription = "Adicionar Produto")
+            }
+        }
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ){
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text("Produtos", style = MaterialTheme.typography.titleLarge)
-                ValorTotalEstoque(totalEstoque)
-            }
+        ) {
+            ValorTotalEstoque(totalEstoque)
+            Spacer(modifier = Modifier.height(16.dp))
+            Text("Produtos", style = MaterialTheme.typography.titleLarge)
+            Spacer(modifier = Modifier.height(8.dp))
             ListaDeProdutos(produtos)
-
-            }
         }
-
-
+    }
 }
 
 @Composable
 fun ValorTotalEstoque(totalEstoque: Double?) {
-    Card( modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Valor total em estoque".format(totalEstoque),
-                style = MaterialTheme.typography.titleMedium,
-                color = Color(0xFF001183)
+                text = "Valor total em estoque:",
+                style = MaterialTheme.typography.titleMedium
+            )
+            Text(
+                text = "R$ %.2f".format(totalEstoque ?: 0.0),
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.primary
             )
         }
     }
@@ -122,12 +123,23 @@ fun ValorTotalEstoque(totalEstoque: Double?) {
 
 @Composable
 fun ListaDeProdutos(produtos: List<Produto>) {
-    LazyColumn {
-        items(produtos) { produto ->
-            ProdutoItem(produto)
-
+    if (produtos.isEmpty()) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text("Nenhum produto cadastrado.")
+            Text("Clique no botão '+' para adicionar.")
         }
-
+    } else {
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(produtos) { produto ->
+                ProdutoItem(produto)
+            }
+        }
     }
 }
 
@@ -135,36 +147,31 @@ fun ListaDeProdutos(produtos: List<Produto>) {
 fun ProdutoItem(produto: Produto) {
     Card(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-    ){
-        Column( modifier = Modifier.padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(produto.nome, style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text("Preço ${produto.precoUnitario}", style = MaterialTheme.typography.bodyMedium)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text("Quantidade ${produto.quantidade}", style = MaterialTheme.typography.bodyMedium)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text("Categoria ${produto.categoria}", style = MaterialTheme.typography.bodyMedium)
+            .fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(produto.nome, style = MaterialTheme.typography.titleMedium)
+                Spacer(modifier = Modifier.height(4.dp))
 
-
-
+            }
+            Column(horizontalAlignment = Alignment.End) {
+                Text(
+                    "R$ %.2f".format(produto.precoUnitario),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                Text(
+                    "Qtd: ${produto.quantidade}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
         }
-
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -3,8 +3,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
-
-
 }
 
 android {
@@ -40,13 +38,20 @@ android {
     buildFeatures {
         compose = true
     }
+    // 👇 ADICIONE ESTE BLOCO para definir a versão do compilador Compose
+    composeOptions {
+        // Versão 1.5.15 é compatível com Kotlin 1.9.25
+        kotlinCompilerExtensionVersion = "1.5.15"
+    }
 }
 
 dependencies {
+    // ... (restante das dependências)
     implementation(libs.androidx.compose.runtime.livedata)
-    val room_version = "2.8.0"
+    val room_version = "2.6.1" // Downgraded from 2.8.0 to latest stable
 
     implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-ktx:$room_version") // Added for suspend function support
     ksp("androidx.room:room-compiler:$room_version")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")

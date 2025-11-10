@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 
 class ProdutoViewModel (private val  repository: ProdutoRepository): ViewModel(){
 
+
     val listarProdutos: StateFlow<List<Produto>> = repository.getTodosProdutos()
         .stateIn(
             scope = viewModelScope,
