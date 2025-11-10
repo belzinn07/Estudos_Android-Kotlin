@@ -1,5 +1,6 @@
 package com.example.controledeestoque_v2.data.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -8,9 +9,12 @@ import androidx.room.PrimaryKey
 data class Produto(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-
+    @ColumnInfo("nome")
     val nome: String,
+    @ColumnInfo("categoria")
     val categoria: Categoria,
+    @ColumnInfo("quantidade")
     val quantidade: Int,
+    @ColumnInfo("precoUnitario")
     val precoUnitario: Double
 )

@@ -1,4 +1,4 @@
-package com.example.controledeestoque_v2.ui.view
+package com.example.controledeestoque_v2.ui.produto
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

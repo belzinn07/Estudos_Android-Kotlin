@@ -1,5 +1,6 @@
-package com.example.controledeestoque_v2.data.dao
+package com.example.controledeestoque_v2.data.local
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -21,4 +22,8 @@ interface ProdutoDao {
 @Query("SELECT * FROM produtos ORDER BY nome ASC")
 fun  listarProdutos(): Flow<List<Produto>>
 
+@Query ("SELECT SUM(quantidade * precoUnitario) FROM produtos")
+fun calcularValorTotalEstoque(): Flow<Double?>
 }
+
+
