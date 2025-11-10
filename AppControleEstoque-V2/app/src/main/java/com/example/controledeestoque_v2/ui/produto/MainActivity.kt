@@ -29,7 +29,6 @@ import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -80,19 +79,31 @@ fun TelaPricipal(
                Icon(Icons.Default.Add, contentDescription = "Adicionar Produto")
            }
        }
-    ) {Column (
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {  }
+    ) {innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ){
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text("Produtos", style = MaterialTheme.typography.titleLarge)
+                ValorTotalEstoque(totalEstoque)
+            }
+            ListaDeProdutos(produtos)
 
+            }
+        }
 
-    }
 
 }
 
 @Composable
-fun ValorTotalEstoque(totalEstoque: Double) {
+fun ValorTotalEstoque(totalEstoque: Double?) {
     Card( modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)) {
         Column(

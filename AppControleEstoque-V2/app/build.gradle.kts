@@ -51,7 +51,6 @@ dependencies {
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.4")
-    implementation("androidx.compose.material3:material3")
 
     implementation("androidx.navigation:navigation-compose:2.8.0")
 
@@ -64,10 +63,6 @@ dependencies {
     // 🧩 Hilt (com KSP)
     implementation ("com.google.dagger:hilt-android:2.52")
     ksp("com.google.dagger:hilt-compiler:2.52")
-
-    implementation("androidx.compose.runtime:runtime-livedata:VERSION")
-
-
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -85,5 +80,3 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
-
-
