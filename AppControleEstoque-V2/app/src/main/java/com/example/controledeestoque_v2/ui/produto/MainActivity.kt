@@ -168,7 +168,7 @@ fun ProdutoItem(produto: Produto) {
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
-                    "Qtd: ${produto.quantidade}",
+                    "Quantidade: ${produto.quantidade}",
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
