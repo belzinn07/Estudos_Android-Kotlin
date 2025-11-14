@@ -1,10 +1,11 @@
 package com.example.controledeestoque_v2.data.repository
 
-import com.example.controledeestoque_v2.data.model.Produto
-import com.example.controledeestoque_v2.data.local.ProdutoDao
+import com.example.controledeestoque_v2.data.local.model.Produto
+import com.example.controledeestoque_v2.data.local.dao.ProdutoDao
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class ProdutoRepository (private val dao: ProdutoDao){
+class ProdutoRepository @Inject constructor(private val dao: ProdutoDao){
 
 
     fun getTodosProdutos(): Flow<List<Produto>> = dao.listarProdutos()

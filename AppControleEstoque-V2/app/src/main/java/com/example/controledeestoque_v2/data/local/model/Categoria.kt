@@ -1,4 +1,4 @@
-package com.example.controledeestoque_v2.data.model
+package com.example.controledeestoque_v2.data.local.model
 
 enum class Categoria {
     ALIMENTOS,

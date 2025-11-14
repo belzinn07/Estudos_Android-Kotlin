@@ -31,48 +31,48 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.controledeestoque_v2.data.model.Produto
+import com.example.controledeestoque_v2.data.local.model.Produto
+import com.example.controledeestoque_v2.ui.navigation.AppNavegacao
 import com.example.controledeestoque_v2.ui.theme.ControleDeEstoqueV2Theme
 import com.example.controledeestoque_v2.viewmodel.ProdutoViewModel
 
-class MainActivity : ComponentActivity() {
+class EstoqueActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             ControleDeEstoqueV2Theme {
-                TelaPricipal(onAddProduto = {});
+                AppNavegacao()
 
             }
         }
     }
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
-fun TelaPricipal(
+fun TelaEstoque(
     onAddProduto: () -> Unit,
     viewModel: ProdutoViewModel = viewModel()
 ) {
     val produtos by viewModel.listarProdutos.collectAsState(initial = emptyList())
     val totalEstoque by viewModel.valorTotalEstoque.collectAsState(initial = 0.0)
 
-
     Scaffold(
         topBar = {
             TopAppBar(
                 colors = topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary
                 ),
-                title = {
-                    Text("Controle de Estoque")
-                }
+                title = { Text("Controle de Estoque") }
             )
         },
-
         floatingActionButton = {
             FloatingActionButton(onClick = onAddProduto) {
                 Icon(Icons.Default.Add, contentDescription = "Adicionar Produto")
@@ -83,12 +83,16 @@ fun TelaPricipal(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(16.dp),
+                .padding(16.dp)
         ) {
             ValorTotalEstoque(totalEstoque)
+
             Spacer(modifier = Modifier.height(16.dp))
+
             Text("Produtos", style = MaterialTheme.typography.titleLarge)
+
             Spacer(modifier = Modifier.height(8.dp))
+
             ListaDeProdutos(produtos)
         }
     }
@@ -175,3 +179,4 @@ fun ProdutoItem(produto: Produto) {
         }
     }
 }
+

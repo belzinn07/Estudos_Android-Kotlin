@@ -4,15 +4,16 @@ import androidx.lifecycle.ViewModel
 import com.example.controledeestoque_v2.data.repository.ProdutoRepository
 import kotlinx.coroutines.flow.SharingStarted
 import androidx.lifecycle.viewModelScope
-import com.example.controledeestoque_v2.data.model.Produto
+import com.example.controledeestoque_v2.data.local.model.Produto
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
-
-class ProdutoViewModel (private val  repository: ProdutoRepository): ViewModel(){
+@HiltViewModel
+class ProdutoViewModel @Inject constructor(private val  repository: ProdutoRepository): ViewModel(){
 
 
     val listarProdutos: StateFlow<List<Produto>> = repository.getTodosProdutos()
