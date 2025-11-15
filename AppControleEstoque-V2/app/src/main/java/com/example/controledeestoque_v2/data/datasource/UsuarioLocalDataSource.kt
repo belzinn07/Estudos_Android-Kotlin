@@ -13,4 +13,6 @@ class UsuarioLocalDataSource @Inject constructor(private val dao: UsuarioDao) {
 
     suspend fun deletarUsuario() = dao.deletarUsuarioLogado()
 
+
+
 }
