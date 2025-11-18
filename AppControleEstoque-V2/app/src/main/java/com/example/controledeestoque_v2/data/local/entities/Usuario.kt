@@ -1,3 +1,5 @@
+package com.example.controledeestoque_v2.data.local.entities
+
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -11,11 +13,11 @@ data class Usuario(
     val token: String? = null,
 
     @ColumnInfo(name = "nome_usuario")
-    val nome: String,
+    val nome: String = "",
 
     @ColumnInfo(name = "email_usuario")
-    val email: String,
+    val email: String = "",
 
     @ColumnInfo(name = "senha_usuario")
-    val senha: String
+    val senha: String = ""
 )

@@ -1,8 +1,6 @@
 package com.example.controledeestoque_v2.core.di
 
 import com.example.controledeestoque_v2.core.datastore.GerenciadorDeToken
-import com.example.controledeestoque_v2.data.datasource.UsuarioLocalDataSource
-import com.example.controledeestoque_v2.data.local.dao.UsuarioDao
 import com.example.controledeestoque_v2.data.remote.ApiService
 import dagger.Module
 import dagger.Provides

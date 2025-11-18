@@ -1,4 +1,4 @@
-package com.example.controledeestoque_v2.data.local.model
+package com.example.controledeestoque_v2.data.local.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

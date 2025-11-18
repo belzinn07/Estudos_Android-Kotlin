@@ -48,7 +48,6 @@ android {
 dependencies {
     implementation(libs.androidx.compose.runtime.livedata)
     implementation(libs.androidx.datastore.core)
-    // ADICIONADO: Dependência para DataStore de Preferências
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 
     val room_version = "2.6.1" // Downgraded from 2.8.0 to latest stable
@@ -71,6 +70,8 @@ dependencies {
     // 🧩 Hilt (com KSP)
     implementation ("com.google.dagger:hilt-android:2.52")
     ksp("com.google.dagger:hilt-compiler:2.52")
+    // ADICIONADO: Dependência para integração do Hilt com Compose
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.example.controledeestoque_v2.data.repository.ProdutoRepository
 import kotlinx.coroutines.flow.SharingStarted
 import androidx.lifecycle.viewModelScope
-import com.example.controledeestoque_v2.data.local.model.Produto
+import com.example.controledeestoque_v2.data.local.entities.Produto
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn

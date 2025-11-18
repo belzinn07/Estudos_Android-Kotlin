@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.example.controledeestoque_v2.data.local.model.Produto
+import com.example.controledeestoque_v2.data.local.entities.Produto
 import kotlinx.coroutines.flow.Flow
 
 @Dao
