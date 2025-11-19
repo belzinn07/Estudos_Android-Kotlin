@@ -6,8 +6,9 @@ import com.example.controledeestoque_v2.data.datasource.UsuarioRemotoDataSouce
 import com.example.controledeestoque_v2.data.local.entities.Usuario
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class UsuarioRepository(
+class UsuarioRepository @Inject constructor(
     private val usuarioRemotoDataSource: UsuarioRemotoDataSouce,
     private val usuarioLocalDataSource: UsuarioLocalDataSource,
     private val gerenciadorDeToken: GerenciadorDeToken

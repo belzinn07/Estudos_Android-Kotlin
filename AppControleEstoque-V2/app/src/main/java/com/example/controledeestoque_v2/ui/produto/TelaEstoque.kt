@@ -1,6 +1,7 @@
 package com.example.controledeestoque_v2.ui.produto
 
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,6 +40,7 @@ import com.example.controledeestoque_v2.viewmodel.ProdutoViewModel
 @Composable
 fun TelaEstoque(
     onAddProduto: () -> Unit,
+    onEditarProduto: (Int) -> Unit,
     viewModel: ProdutoViewModel = viewModel()
 ) {
     val produtos by viewModel.listarProdutos.collectAsState(initial = emptyList())
@@ -74,7 +76,7 @@ fun TelaEstoque(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            ListaDeProdutos(produtos)
+            ListaDeProdutos(produtos, onEditarProduto)
         }
     }
 }
@@ -107,7 +109,7 @@ fun ValorTotalEstoque(totalEstoque: Double?) {
 
 
 @Composable
-fun ListaDeProdutos(produtos: List<Produto>) {
+fun ListaDeProdutos(produtos: List<Produto>, onEditarProduto: (Int) -> Unit){
     if (produtos.isEmpty()) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -122,17 +124,18 @@ fun ListaDeProdutos(produtos: List<Produto>) {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(produtos) { produto ->
-                ProdutoItem(produto)
+                ProdutoItem(produto, onEditarProduto)
             }
         }
     }
 }
-
 @Composable
-fun ProdutoItem(produto: Produto) {
+fun ProdutoItem(produto: Produto, onEditarProduto: (Int) -> Unit) {
     Card(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(4.dp)
+            .clickable { onEditarProduto(produto.id) },   // <-- AQUI!
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
@@ -145,7 +148,6 @@ fun ProdutoItem(produto: Produto) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(produto.nome, style = MaterialTheme.typography.titleMedium)
                 Spacer(modifier = Modifier.height(4.dp))
-
             }
             Column(horizontalAlignment = Alignment.End) {
                 Text(
@@ -160,4 +162,3 @@ fun ProdutoItem(produto: Produto) {
         }
     }
 }
-

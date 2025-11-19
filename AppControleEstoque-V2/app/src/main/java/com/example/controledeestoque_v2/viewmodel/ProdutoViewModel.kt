@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.example.controledeestoque_v2.data.repository.ProdutoRepository
 import kotlinx.coroutines.flow.SharingStarted
 import androidx.lifecycle.viewModelScope
+import com.example.controledeestoque_v2.core.utils.ValidarEntradasProduto
 import com.example.controledeestoque_v2.data.local.entities.Produto
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -37,7 +38,12 @@ class ProdutoViewModel @Inject constructor(private val  repository: ProdutoRepos
 
     fun inserir(produto: Produto) {
         viewModelScope.launch {
-            if (produto.nome.isNotBlank() || produto.quantidade > 0 || produto.precoUnitario > 0)
+            val erro = ValidarEntradasProduto.validar(produto)
+            if (erro != null) {
+                _mensagem.emit(erro)
+                return@launch
+            }
+
                 repository.inserir(produto)
             _mensagem.emit("Produto adicionado com sucesso!")
 

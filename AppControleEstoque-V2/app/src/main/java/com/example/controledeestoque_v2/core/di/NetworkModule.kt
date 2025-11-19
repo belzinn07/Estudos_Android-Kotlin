@@ -7,6 +7,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import jakarta.inject.Singleton
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -35,7 +37,7 @@ class NetworkModule {
       return Interceptor { chain ->
          val requestBuilder = chain.request().newBuilder()
 
-         val token = gerenciarToken
+         val token = runBlocking { gerenciarToken.token.firstOrNull() }
          if (token != null) {
             requestBuilder.addHeader("Authorization", "Bearer $token")
          }
