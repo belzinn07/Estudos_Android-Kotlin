@@ -6,7 +6,9 @@ import kotlinx.coroutines.flow.SharingStarted
 import androidx.lifecycle.viewModelScope
 import com.example.controledeestoque_v2.data.local.entities.Produto
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -14,6 +16,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProdutoViewModel @Inject constructor(private val  repository: ProdutoRepository): ViewModel(){
+
+    private val _mensagem = MutableSharedFlow<String>()
+    val mensagem = _mensagem.asSharedFlow()
 
 
     val listarProdutos: StateFlow<List<Produto>> = repository.getTodosProdutos()
@@ -30,19 +35,33 @@ class ProdutoViewModel @Inject constructor(private val  repository: ProdutoRepos
                 initialValue = 0.0
             )
 
-    fun inserir(produto: Produto) = viewModelScope.launch {
-        if (produto.nome.isNotBlank() || produto.quantidade > 0 || produto.precoUnitario > 0)
-            repository.inserir(produto)
+    fun inserir(produto: Produto) {
+        viewModelScope.launch {
+            if (produto.nome.isNotBlank() || produto.quantidade > 0 || produto.precoUnitario > 0)
+                repository.inserir(produto)
+            _mensagem.emit("Produto adicionado com sucesso!")
 
+
+        }
     }
 
-    fun atualizar(produto: Produto) = viewModelScope.launch {
-        repository.atualizar(produto)
+    fun atualizar(produtoExistente: Produto, produtoNovo: Produto) {
+        viewModelScope.launch {
+            val atualizado = produtoExistente.copy(
+                nome = produtoNovo.nome,
+                precoUnitario = produtoNovo.precoUnitario,
+                quantidade = produtoNovo.quantidade,
+                categoria = produtoNovo.categoria
+            )
+            repository.atualizar(atualizado)
+            _mensagem.emit("Produto atualizado com sucesso! ")
+        }
     }
 
-    fun deletar(produto: Produto) = viewModelScope.launch {
-        repository.deletar(produto)
+    fun deletar(produto: Produto) {
+        viewModelScope.launch {
+            repository.deletar(produto)
+        }
     }
-
 }
 

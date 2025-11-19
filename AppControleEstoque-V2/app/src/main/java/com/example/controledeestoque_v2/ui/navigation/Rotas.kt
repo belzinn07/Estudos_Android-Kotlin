@@ -6,7 +6,7 @@ object Rotas {
     const val TelaLogin = "tela_login"
     const val TelaCadastro = "tela_cadastro"
     const val TelaEstoque = "tela_estoque"
-    const val TelaAdicionarProduto = "tela_adicionar_produto"
+    const val TelaFormularioProduto = "tela_adicionar_produto"
 
 
 }

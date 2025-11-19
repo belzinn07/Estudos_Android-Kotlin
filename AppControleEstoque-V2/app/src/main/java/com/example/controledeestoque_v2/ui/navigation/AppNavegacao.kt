@@ -10,10 +10,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.controledeestoque_v2.ui.auth.CadastroScreen
 import com.example.controledeestoque_v2.ui.auth.LoginScreen
-import com.example.controledeestoque_v2.ui.navigation.Rotas.TelaPrincipal
 import com.example.controledeestoque_v2.ui.principal.TelaPrincipal
+import com.example.controledeestoque_v2.ui.produto.FormularioProduto
 import com.example.controledeestoque_v2.ui.produto.TelaEstoque
-
+import com.example.controledeestoque_v2.viewmodel.ProdutoViewModel
 import com.example.controledeestoque_v2.viewmodel.UsuarioViewModel
 
 @Composable
@@ -82,11 +82,21 @@ fun AppNavegacao() {
         
         composable(Rotas.TelaEstoque) {
             TelaEstoque(
-                onAddProduto = { navController.navigate(Rotas.TelaAdicionarProduto) }
+                onAddProduto = { navController.navigate(Rotas.TelaFormularioProduto) }
             )
         }
 
 
-        composable(Rotas.TelaAdicionarProduto) { }
+
+            composable(Rotas.TelaFormularioProduto) {
+                val produtoViewModel = hiltViewModel<ProdutoViewModel>()
+               FormularioProduto(
+                   viewModel = produtoViewModel,
+                   onVoltar = { navController.popBackStack() }
+
+               )
+            }
+
+
     }
 }

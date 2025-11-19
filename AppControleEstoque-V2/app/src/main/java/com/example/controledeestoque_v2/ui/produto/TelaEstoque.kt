@@ -1,9 +1,6 @@
 package com.example.controledeestoque_v2.ui.produto
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -34,22 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.controledeestoque_v2.data.local.entities.Produto
-import com.example.controledeestoque_v2.ui.navigation.AppNavegacao
-import com.example.controledeestoque_v2.ui.theme.ControleDeEstoqueV2Theme
 import com.example.controledeestoque_v2.viewmodel.ProdutoViewModel
-
-class EstoqueActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            ControleDeEstoqueV2Theme {
-                AppNavegacao()
-
-            }
-        }
-    }
-}
 
 
 @OptIn(ExperimentalMaterial3Api::class)
