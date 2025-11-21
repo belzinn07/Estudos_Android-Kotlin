@@ -6,7 +6,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import jakarta.inject.Singleton
+
+
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
@@ -14,14 +15,15 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
 
-   private  val BASE_URL = "http://192.168.0.109:8080"
+   private  val BASE_URL = "http://10.0.2.2:8080"
 
-   // Interceptor para logar requisições
+
    @Provides
    @Singleton
    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
@@ -30,7 +32,7 @@ class NetworkModule {
       }
    }
 
-   // Interceptor para adicionar o token JWT automaticamente
+
    @Provides
    @Singleton
    fun provideAuthInterceptor(gerenciarToken: GerenciadorDeToken): Interceptor {
@@ -46,7 +48,7 @@ class NetworkModule {
       }
    }
 
-   // Cliente HTTP configurado
+
    @Provides
    @Singleton
    fun provideOkHttpClient(
@@ -59,7 +61,7 @@ class NetworkModule {
          .build()
    }
 
-   // Retrofit configurado
+
    @Provides
    @Singleton
    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
@@ -70,7 +72,7 @@ class NetworkModule {
          .build()
    }
 
-   // ApiService pronto para injeção
+
    @Provides
    @Singleton
    fun provideApiService(retrofit: Retrofit): ApiService {
