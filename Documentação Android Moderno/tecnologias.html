@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/index.css">
+
+    <title>Tecnologias</title>
+
+
+</head>
+
+<body>
+    <header>
+        <nav class="abas">
+            <li><a href="tecnologias.html">Tecnologias</a></li>
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Materiais</a></li>
+        </nav>
+    </header>
+
+    <main class="geral">
+        <h1 class="title">Kotlin</h1>
+
+        <section class="container">
+            <!--
+
+            <div class="box">
+                <h3 class="topicos">Como era no Java?</h3>
+                <ul>
+                    <li><span>Declaração de variável:</span> String nome = "Belmiro"; </li>
+                    <li><span>Tipagem: </span>forte, mas verbosa</li>
+                    <li><span>Final: </span>final</li>
+                    <li><span>Null safety: </span>precisa verificar manualmente</li>
+                    <li><span>Getters/Setters: </span>manuais</li>
+                    <li><span>Métodos estáticos: </span>static</li>
+                    <li><span>Construtores: </span>explícitos</li>
+                    <li><span>Lambda: </span>() -> {}</li>
+                    <li><span>Classes anônimas: </span>cheias de código</li>
+                  
+                </ul>
+            </div>
+            <div class="box">
+                <h3 class="topicos">Como ficou no Kotlin? </h3>
+                <ul>
+                  <li><span>Declaração de variável: </span>val nome = "Belmiro" ou var nome = "Belmiro"</li>
+                  <li><span>Tipagem: </span>forte, porém inferida</li>
+                  <li><span>Final: </span>val</li>
+                  <li><span>Null safety: </span>String? (nullable) e String (não nulo)</li>
+                  <li><span>Getters/Setters: </span>automáticos</li>
+                  <li><span>Métodos estáticos: </span>companion object</li>
+                  <li><span>Construtores: </span>mais simples (constructor ou direto no header)</li>
+                  <li><span>Lambda: </span>direto, sem boilerplate</li>
+                  <li><span>Classes anônimas: </span>lambdas e interfaces funcionais</li>
+                </ul>
+            </div>
+            -->
+
+            <div class="box">
+                <h3 class="topicos">⚙️ Variáveis</h3>
+                <ul>
+                    <li><span>val</span> nome = "Belmiro" // imutável</li>
+                    <li><span>var</span> idade = 18 //mutável</li>
+                    <li>idade = 19 // certo</li>
+                    <li>// nome = "João" // erro, val é imutável
+                    <li><strong>Tipos explícitos:</strong></li>
+                    <li><span>val</span> peso: <span>Double</span> = 75.5</li>
+                    <li><span>var</span> altura: <span>Float</span> = 1.78f</li>
+                </ul>
+            </div>
+
+            <div class="box">
+                <h3 class="topicos">💬 Null Safety</h3>
+                <ul>
+                    <li><span>var </span>nome: String? = null // pode ser nulo</li>
+                    <li><span>var </span>email: String = email@gmail.com // não pode ser nulo</li>
+                    <li><span>Operadores: </span></li>
+                    <li>println(nome?.length) // safe call (retorna null se nome for null)</li>
+                    <li>println(nome ?: "Sem nome") // elvis operator (valor padrão)</li>
+                </ul>
+            </div>
+
+
+            <div class="box">
+                <h3 class="topicos">🧱 Classes e construtores</h3>
+                <ul>
+                    <li><span>class</span> Usuario(val nome: String)</li>
+                    <li><strong>ou com corpo:</strong></li>
+                    <li>class Usuario(var nome: String) {<br>
+                        fun apresentar() {
+                        println("Olá, $nome")
+                        }
+                        }
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="box">
+                <h3 class="topicos">🧩 Funções</h3>
+                <ul>
+                    <li><span>fun </span> somar(a: Int, b: Int): Int {<br>
+                        <span>return</span> a + b <br>
+                        }
+                    </li>
+                    <li><strong>Forma reduzida:</strong></li>
+                    <li><span>fun</span> somar(a: Int, b: Int) = a + b
+                    </li>
+                    <li><strong>Função sem retorno:</strong></li>
+                    <li><span>fun</span> logar(msg: String) { <br>
+                        println("LOG: $msg") <br>
+                        }
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="box">
+                <h3 class="topicos">🔁 Condições e loops</h3>
+                <ul>
+                    <li><span>val </span> idade = 18 <br>
+                        <span>if</span>(idade>=18) { <br>
+                        println("Maior de idade") <br>
+                        } <span>else</span> { <br>
+                        println("Menor") <br>
+                        }
+                    </li>
+
+                    <li><strong>For e While</strong></li>
+                    <li><span>for</span> (i <span>in</span> 1..5) println(i) <br><span>for</span> (i<span> in </span>5
+                        downTo 1) println(i) <br><span>while </span>{...}</li>
+                </ul>
+            </div>
+
+
+
+            <div class="box">
+                <ul>
+                    <li><strong>When (substitui switch)</strong></li>
+                    <li><span>when</span> (idade) { <br>
+                        <span>in</span> 0..12 -> println("Criança") <br>
+                        <span>in</span> 13..17 -> println("Adolescente") <br>
+                        18 -> println("Acabou de atingir maioridade") <br>
+                        <span>else</span> -> println("Adulto") <br> }
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="box">
+                <h3 class="topicos">🧠 Coleções</h3>
+                <ul>
+                    
+
+                </ul>
+            </div>
+
+
+            <div class="box">
+                <h3 class="topicos"></h3>
+                <ul>
+
+                </ul>
+            </div>
+
+
+            <div class="box">
+                <h3 class="topicos"></h3>
+                <ul>
+
+                </ul>
+            </div>
+
+
+            <div class="box">
+                <h3 class="topicos"></h3>
+                <ul>
+
+                </ul>
+            </div>
+
+
+            <div class="box">
+                <h3 class="topicos"></h3>
+                <ul>
+
+                </ul>
+            </div>
+
+
+            <div class="box">
+                <h3 class="topicos"></h3>
+                <ul>
+
+                </ul>
+            </div>
+
+
+
+        </section>
+    </main>
+</body>
+
+</html>

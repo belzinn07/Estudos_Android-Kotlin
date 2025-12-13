@@ -1,0 +1,123 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+body {
+background: linear-gradient(
+  135deg,
+  #0095D5,
+  #7F52FF,
+  #C757BC
+);
+    color: #fff;
+    padding: 10px;
+}
+
+header{
+    background: white;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.abas{
+   display: flex;
+   gap: 50px;
+   padding:20px 0;
+   list-style: none;
+   height: 100%;
+}
+
+.abas a{
+    text-decoration: none;
+    color: #0a4c9c;
+    transition: transform 0.2s ease;
+    display: inline-block;
+}
+
+.abas a:hover{
+    transform: scale(1.2);   
+    color: #ffd700; 
+    
+}
+
+/* Título principal */
+.title {
+    text-align: center;
+    font-size: 2.3rem;
+    margin-bottom: 40px;
+    font-weight: 700;
+}
+
+/* Container geral */
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Cards */
+.box {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Efeito hover dos cards */
+.box:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.32);
+}
+
+/* Títulos dentro dos cards */
+.topicos {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    color: #fff;
+    border-left: 5px solid #ffd700;
+    padding-left: 10px;
+}
+
+/* Lista */
+ul {
+    list-style: none;
+}
+
+ul li {
+    margin-bottom: 10px;
+    line-height: 1.4rem;
+    font-size: 1rem;
+    color: #e9e9e9;
+    position: relative;
+    padding-left: 18px;
+}
+
+/* Bolinha moderna na lista */
+ul li::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: #ffd700;
+    border-radius: 50%;
+    position: absolute;
+    left: 0;
+    top: 6px;
+}
+
+/* Destaques */
+span {
+    color: #ffd700;
+    font-weight: 600;
+}
