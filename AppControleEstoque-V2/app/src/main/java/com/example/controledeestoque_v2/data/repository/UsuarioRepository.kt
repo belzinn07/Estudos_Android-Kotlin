@@ -50,6 +50,7 @@ class UsuarioRepository @Inject constructor(
         if (resposta != null) {
             val usuario = montarUsuario(resposta)
             usuarioLocalDataSource.salvarUsuario(usuario)
+
             emit(usuario)
         } else {
             emit(null)

@@ -6,10 +6,11 @@ import com.example.controledeestoque_v2.data.remote.ApiService
 import com.example.controledeestoque_v2.data.remote.dto.AuthResponse
 import com.example.controledeestoque_v2.data.remote.dto.CadastroRequest
 import com.example.controledeestoque_v2.data.remote.dto.LoginRequest
-import jakarta.inject.Inject
-import jakarta.inject.Singleton
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 class UsuarioRemotoDataSouce @Inject constructor(

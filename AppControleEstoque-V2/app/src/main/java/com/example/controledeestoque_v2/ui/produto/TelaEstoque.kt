@@ -30,7 +30,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import com.example.controledeestoque_v2.data.local.entities.Produto
 import com.example.controledeestoque_v2.viewmodel.ProdutoViewModel
 
@@ -41,7 +42,7 @@ import com.example.controledeestoque_v2.viewmodel.ProdutoViewModel
 fun TelaEstoque(
     onAddProduto: () -> Unit,
     onEditarProduto: (Int) -> Unit,
-    viewModel: ProdutoViewModel = viewModel()
+    viewModel: ProdutoViewModel = hiltViewModel()
 ) {
     val produtos by viewModel.listarProdutos.collectAsState(initial = emptyList())
     val totalEstoque by viewModel.valorTotalEstoque.collectAsState(initial = 0.0)
