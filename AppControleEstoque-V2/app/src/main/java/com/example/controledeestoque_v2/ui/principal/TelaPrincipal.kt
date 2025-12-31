@@ -57,7 +57,7 @@ fun CardEstoque(
             .clickable { onClick() },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFFF2EEFF) // Roxo bem claro igual ao legado
+            containerColor = Color(0xFFF2EEFF)
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
     ) {

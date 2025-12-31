@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.example.controledeestoque_v2.data.repository.ProdutoRepository
 import kotlinx.coroutines.flow.SharingStarted
 import androidx.lifecycle.viewModelScope
-import com.example.controledeestoque_v2.core.utils.ValidarEntradasProduto
+import com.example.controledeestoque_v2.core.validation.ValidarEntradasProduto
 import com.example.controledeestoque_v2.data.local.entities.Produto
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -59,6 +59,8 @@ class ProdutoViewModel @Inject constructor(private val  repository: ProdutoRepos
                 quantidade = produtoNovo.quantidade,
                 categoria = produtoNovo.categoria
             )
+
+
             repository.atualizar(atualizado)
             _mensagem.emit("Produto atualizado com sucesso! ")
         }

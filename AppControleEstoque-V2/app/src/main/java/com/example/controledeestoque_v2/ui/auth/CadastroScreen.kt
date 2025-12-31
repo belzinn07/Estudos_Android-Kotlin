@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.controledeestoque_v2.ui.state.UiState
 import com.example.controledeestoque_v2.viewmodel.UsuarioViewModel
 
 @Composable
@@ -31,19 +32,18 @@ fun CadastroScreen(
     onCadastroSuccess: () -> Unit,
     viewModel: UsuarioViewModel = hiltViewModel()
 ) {
-    val usuario by viewModel.usuarioLogado.collectAsState()
+    val usuario by viewModel.cadastroState.collectAsState()
     var nome by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
-    var loading by remember { mutableStateOf(false) }
 
-    // Quando cadastrar com sucesso, volta para Login
     LaunchedEffect(usuario) {
-        if (usuario != null) {
-            loading = false
+        if (usuario is UiState.Success) {
             onCadastroSuccess()
         }
     }
+
+
 
     Column(
         Modifier
@@ -81,17 +81,31 @@ fun CadastroScreen(
         Spacer(Modifier.height(16.dp))
 
         Button(
+            enabled = usuario !is UiState.Loading,
             onClick = {
                 if (nome.isNotBlank() && email.isNotBlank() && senha.isNotBlank()) {
-                    loading = true
                     viewModel.cadastrar(nome, email, senha)
                 }
             },
             modifier = Modifier.fillMaxWidth(),
-            enabled = !loading
         ) {
-            if (loading) CircularProgressIndicator(Modifier.size(22.dp))
-            else Text("Cadastrar")
+            when (usuario) {
+
+                UiState.Idle -> Text("Cadastrar")
+
+                is UiState.Loading -> CircularProgressIndicator(Modifier.size(22.dp))
+
+                is UiState.Error ->{
+                    Text(
+                        text = (usuario as UiState.Error).message,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+
+                is UiState.Success -> Text("Cadastrar")
+
+            }
+
         }
     }
 }

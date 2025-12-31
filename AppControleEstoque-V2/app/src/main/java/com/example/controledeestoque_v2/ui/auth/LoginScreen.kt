@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.controledeestoque_v2.ui.state.UiState
 import com.example.controledeestoque_v2.viewmodel.UsuarioViewModel
 
 @Composable
@@ -33,15 +34,12 @@ fun LoginScreen(
     onLoginSuccess: () -> Unit,
     viewModel: UsuarioViewModel = hiltViewModel()
 ) {
-    val usuario by viewModel.usuarioLogado.collectAsState()
+    val usuario by viewModel.loginState.collectAsState()
     var email by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
-    var loading by remember { mutableStateOf(false) }
 
-    // Quando o login funcionar, navegar automaticamente
     LaunchedEffect(usuario) {
-        if (usuario != null) {
-            loading = false
+        if (usuario is UiState.Success) {
             onLoginSuccess()
         }
     }
@@ -75,17 +73,29 @@ fun LoginScreen(
         Spacer(Modifier.height(16.dp))
 
         Button(
+            enabled = usuario !is UiState.Loading,
             onClick = {
                 if (email.isNotBlank() && senha.isNotBlank()) {
-                    loading = true
                     viewModel.login(email, senha)
                 }
             },
             modifier = Modifier.fillMaxWidth(),
-            enabled = !loading
+
         ) {
-            if (loading) CircularProgressIndicator(Modifier.size(22.dp))
-            else Text("Entrar")
+            when(usuario){
+                UiState.Idle -> Text("Entrar")
+
+                is UiState.Loading -> CircularProgressIndicator(Modifier.size(22.dp))
+
+                is UiState.Error -> {
+                    Text(
+                        text = (usuario as UiState.Error).message,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+
+                is UiState.Success -> Text("Entrar")
+            }
         }
 
         Spacer(Modifier.height(12.dp))
