@@ -21,4 +21,7 @@ interface ClienteDao {
     @Query("SELECT * FROM clientes ORDER BY nome ASC")
     fun listarClientes(): Flow<List<Cliente>>
 
+    @Query("SELECT * FROM clientes WHERE id = :id LIMIT 1")
+    fun obterClientePorId(id: Int): Cliente?
+
 }

@@ -6,13 +6,17 @@ import com.example.controledeestoque_v2.core.validation.ResultadoValidacao
 import com.example.controledeestoque_v2.core.validation.ValidadorDados
 import com.example.controledeestoque_v2.core.validation.ValidadorEndereco
 import com.example.controledeestoque_v2.data.local.entities.Cliente
+import com.example.controledeestoque_v2.data.local.entities.Endereco
 import com.example.controledeestoque_v2.data.repository.ClienteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,6 +26,9 @@ class ClienteViewModel @Inject constructor(private val repository: ClienteReposi
     private val _mensagem = MutableSharedFlow<String>()
     val mensagem = _mensagem.asSharedFlow()
 
+    private val _dadosClienteFormulario = MutableStateFlow(Cliente())
+    val dadosClienteFormulario = _dadosClienteFormulario.asStateFlow()
+
     val listarClientes: StateFlow<List<Cliente>> = repository.getTodosClientes()
         .stateIn(
             scope = viewModelScope,
@@ -29,33 +36,45 @@ class ClienteViewModel @Inject constructor(private val repository: ClienteReposi
             initialValue = emptyList()
         )
 
-    fun adicionarCliente(cliente: Cliente) {
+
+
+    fun iniciarNovoCadastro() {
+        _dadosClienteFormulario.value = Cliente()
+    }
+
+    fun carregarCliente(id: Int) {
+        if (id <= 0) return
         viewModelScope.launch {
-
-            if (!validarOuEmitirErro(cliente)) return@launch
-
-            repository.inserir(cliente)
-            _mensagem.emit("Cliente adicionado com sucesso!")
-        }
-        }
-
-    fun  atualizarCliente(clienteExistente: Cliente, clienteNovo: Cliente) {
-        viewModelScope.launch {
-            val atualizado = clienteExistente.copy(
-                nome = clienteNovo.nome,
-                email = clienteNovo.email,
-                cnpjcpf = clienteNovo.cnpjcpf,
-                telefone = clienteNovo.telefone,
-                tipo = clienteNovo.tipo,
-                endereco = clienteNovo.endereco
-            )
-
-            if (!validarOuEmitirErro(atualizado)) return@launch
-
-            repository.atualizar(atualizado)
-            _mensagem.emit("Cliente atualizado com sucesso!")
+            repository.obterClientePorId(id)?.let { _dadosClienteFormulario.value = it }
         }
     }
+
+    fun atualizarRascunho(clienteAtualizado: Cliente) {
+        _dadosClienteFormulario.value = clienteAtualizado
+    }
+
+    fun salvarCliente(onSucesso: () -> Unit) {
+        viewModelScope.launch {
+            val clienteParaSalvar = _dadosClienteFormulario.value
+            if (!validarOuEmitirErro(clienteParaSalvar)) return@launch
+
+            if (clienteParaSalvar.id == 0) repository.inserir(clienteParaSalvar)
+            else repository.atualizar(clienteParaSalvar)
+
+            _mensagem.emit("Cliente salvo com sucesso!")
+            onSucesso()
+        }
+    }
+
+
+    fun deletarCliente(cliente: Cliente) {
+        viewModelScope.launch {
+            repository.deletar(cliente)
+            _mensagem.emit("Cliente deletado com sucesso!")
+        }
+    }
+
+
 
     private suspend fun validarOuEmitirErro(cliente: Cliente): Boolean {
         return when (val resultado = validarEntradas(cliente)) {
@@ -68,23 +87,8 @@ class ClienteViewModel @Inject constructor(private val repository: ClienteReposi
     }
 
     private fun validarEntradas(cliente: Cliente): ResultadoValidacao {
-        ValidadorDados.validar(cliente)?.let {
-            return ResultadoValidacao.Erro(it)
-        }
-
-        ValidadorEndereco.validar(cliente.endereco)?.let {
-            return ResultadoValidacao.Erro(it)
-        }
-
+        ValidadorDados.validar(cliente)?.let { return ResultadoValidacao.Erro(it) }
+        ValidadorEndereco.validar(cliente.endereco)?.let { return ResultadoValidacao.Erro(it) }
         return ResultadoValidacao.Sucesso
     }
-
-    fun deletarCliente(cliente: Cliente) {
-        viewModelScope.launch {
-            repository.deletar(cliente)
-            _mensagem.emit("Cliente deletado com sucesso!")
-        }
-    }
-
-
 }

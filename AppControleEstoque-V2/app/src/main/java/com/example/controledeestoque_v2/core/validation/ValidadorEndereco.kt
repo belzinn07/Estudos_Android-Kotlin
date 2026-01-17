@@ -1,6 +1,6 @@
 package com.example.controledeestoque_v2.core.validation
 
-import com.example.controledeestoque_v2.core.exception.ValidacaoComercialException
+import com.example.controledeestoque_v2.core.utils.ValidacaoComercialException
 import com.example.controledeestoque_v2.data.local.entities.Endereco
 
 object ValidadorEndereco : Validador<Endereco>{

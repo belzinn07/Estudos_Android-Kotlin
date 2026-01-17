@@ -23,7 +23,8 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun TelaPrincipal(
-    onIrParaEstoque: () -> Unit
+    onIrParaEstoque: () -> Unit,
+    onIrParaClientes: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -43,6 +44,7 @@ fun TelaPrincipal(
         Spacer(modifier = Modifier.height(32.dp))
 
         CardEstoque(onIrParaEstoque)
+        CardClientes(onIrParaClientes)
     }
 }
 
@@ -87,3 +89,43 @@ fun CardEstoque(
     }
 }
 
+@Composable
+fun CardClientes(
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 12.dp)
+            .clickable { onClick() },
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFFF2EEFF)
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+    ) {
+
+        Column(
+            modifier = Modifier.padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            Text(
+                text = "Clientes",
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.Bold
+                )
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Button(
+                onClick = onClick,
+                shape = RoundedCornerShape(50),
+                modifier = Modifier.fillMaxWidth(0.8f)
+            ) {
+                Text("Gerenciar Clientes")
+            }
+        }
+    }
+}

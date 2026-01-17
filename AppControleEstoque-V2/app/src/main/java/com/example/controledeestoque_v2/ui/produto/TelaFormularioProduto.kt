@@ -20,10 +20,13 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.controledeestoque_v2.data.local.entities.Categoria
@@ -55,12 +58,20 @@ fun FormularioProduto(
     val snackbar = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
+
+    LaunchedEffect(produtoExistente) {
+        produtoExistente?.let {
+            nome = it.nome
+            precoUnitario = it.precoUnitario.toString()
+            quantidade = it.quantidade.toString()
+            categoria = it.categoria
+        }
+    }
+
     LaunchedEffect(Unit) {
         viewModel.mensagem.collect { mensagem ->
-            scope.launch {
-                snackbar.showSnackbar(mensagem)
-                onVoltar()
-            }
+            snackbar.showSnackbar(mensagem)
+            onVoltar()
         }
     }
 
@@ -72,6 +83,12 @@ fun FormularioProduto(
                         if (produtoExistente == null) "Adicionar Produto"
                         else "Editar Produto"
                     )
+                },
+
+                navigationIcon = {
+                    IconButton(onClick = onVoltar) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Voltar")
+                    }
                 }
             )
         },
@@ -97,7 +114,10 @@ fun FormularioProduto(
                 value = precoUnitario,
                 onValueChange = { precoUnitario = it },
                 label = { Text("Preço Unitário") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Decimal,
+                    imeAction = ImeAction.Next
+                ),
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -136,7 +156,7 @@ fun FormularioProduto(
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
                 ) {
-                    Categoria.values().forEach { categoriaItem ->
+                    Categoria.entries.forEach { categoriaItem ->
                         DropdownMenuItem(
                             text = { Text(categoriaItem.name) },
                             onClick = {
@@ -150,8 +170,9 @@ fun FormularioProduto(
 
             Button(
                 modifier = Modifier.fillMaxWidth(),
+                enabled = nome.isNotBlank() && precoUnitario.isNotBlank() && quantidade.isNotBlank(),
                 onClick = {
-                    val precoDouble = precoUnitario.toDoubleOrNull() ?: 0.0
+                    val precoDouble = precoUnitario.replace(",", ".").toDoubleOrNull() ?: 0.0
                     val quantidadeInt = quantidade.toIntOrNull() ?: 0
 
                     val novoProduto = Produto(

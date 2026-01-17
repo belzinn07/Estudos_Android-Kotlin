@@ -8,6 +8,7 @@ import javax.inject.Inject
 class ClienteRepository @Inject constructor(private val clienteDao: ClienteDao) {
 
     fun getTodosClientes(): Flow<List<Cliente>> = clienteDao.listarClientes()
+    fun obterClientePorId(id: Int): Cliente? = clienteDao.obterClientePorId(id)
 
     suspend fun inserir(cliente: Cliente) = clienteDao.inserir(cliente)
     suspend fun atualizar(cliente: Cliente) = clienteDao.atualizar(cliente)

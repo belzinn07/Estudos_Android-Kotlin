@@ -1,5 +1,6 @@
 package com.example.controledeestoque_v2.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.controledeestoque_v2.data.local.entities.Usuario
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import javax.inject.Inject
+
 @HiltViewModel
 class UsuarioViewModel @Inject constructor(
     private val repository: UsuarioRepository
@@ -22,6 +24,7 @@ class UsuarioViewModel @Inject constructor(
 
     private val _cadastroState = MutableStateFlow<UiState<Usuario?>>(UiState.Idle)
     val cadastroState: StateFlow<UiState<Usuario?>> = _cadastroState
+    
     private val _usuarioLogado = MutableStateFlow<Usuario?>(null)
     val usuarioLogado: StateFlow<Usuario?> = _usuarioLogado
 
@@ -29,15 +32,21 @@ class UsuarioViewModel @Inject constructor(
         viewModelScope.launch {
             _loginState.value = UiState.Loading
             try {
-
-               val usuario =  repository.login(email, senha).first()
-                _usuarioLogado.value = usuario
-                _loginState.value = UiState.Success(usuario)
-
-            } catch (e: HttpException){
-                _loginState.value = UiState.Error("Erro ao realizar Login. Verifique suas credenciais.")
-            } catch (e: Exception){
-                _loginState.value = UiState.Error("Erro inesperado.")
+                val usuario = repository.login(email, senha).first()
+                Log.d("LOGIN_VM", "Resultado do login: $usuario")
+                
+                if (usuario != null) {
+                    _usuarioLogado.value = usuario
+                    _loginState.value = UiState.Success(usuario)
+                } else {
+                    _loginState.value = UiState.Error("Credenciais inválidas ou falha na conexão.")
+                }
+            } catch (e: HttpException) {
+                Log.e("LOGIN_VM", "Erro HTTP: ${e.code()}", e)
+                _loginState.value = UiState.Error("Erro no servidor: ${e.code()}")
+            } catch (e: Exception) {
+                Log.e("LOGIN_VM", "Erro inesperado", e)
+                _loginState.value = UiState.Error("Falha na conexão. O servidor está rodando?")
             }
         }
     }
@@ -46,14 +55,22 @@ class UsuarioViewModel @Inject constructor(
         viewModelScope.launch {
             _cadastroState.value = UiState.Loading
             try {
-               val usuario = repository.cadastrar(nome, email, senha).first()
+                val usuario = repository.cadastrar(nome, email, senha).first()
+                Log.d("CADASTRO_VM", "Resultado do cadastro: $usuario")
+                
+                if (usuario != null) {
                     _usuarioLogado.value = usuario
-
-                _cadastroState.value = UiState.Success(usuario)
+                    _cadastroState.value = UiState.Success(usuario)
+                } else {
+                    _cadastroState.value = UiState.Error("Não foi possível realizar o cadastro.")
+                }
             } catch (e: HttpException) {
-                _cadastroState.value = UiState.Error("Erro ao realizar cadastro.")
-        } catch (e: Exception){
-                 _cadastroState.value = UiState.Error("Erro inesperado.")}
+                Log.e("CADASTRO_VM", "Erro HTTP: ${e.code()}", e)
+                _cadastroState.value = UiState.Error("Erro no servidor: ${e.code()}")
+            } catch (e: Exception) {
+                Log.e("CADASTRO_VM", "Erro inesperado", e)
+                _cadastroState.value = UiState.Error("Falha na conexão com o servidor.")
+            }
         }
     }
 

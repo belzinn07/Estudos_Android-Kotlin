@@ -136,7 +136,7 @@ fun ProdutoItem(produto: Produto, onEditarProduto: (Int) -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(4.dp)
-            .clickable { onEditarProduto(produto.id) },   // <-- AQUI!
+            .clickable { onEditarProduto(produto.id) },
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
